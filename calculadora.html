@@ -49,7 +49,7 @@
 </head>
 <body>
   <div id="calculator">
-    <input type="text" id="display" readonly>
+    <input type="text" id="display" onkeydown="handleKeyDown(event)" readonly>
     <button onclick="clearDisplay()">C</button>
     <button onclick="appendToDisplay('0')">0</button>
     <button onclick="appendToDisplay('/')">/</button>
@@ -70,7 +70,7 @@
 
   <script>
     function appendToDisplay(value) {
-      document.getElementById('display').value = value + document.getElementById('display').value;
+      document.getElementById('display').value += value;
     }
 
     function clearDisplay() {
@@ -83,6 +83,25 @@
         document.getElementById('display').value = result;
       } catch (error) {
         document.getElementById('display').value = 'Error';
+      }
+    }
+
+    function handleKeyDown(event) {
+      const key = event.key;
+
+      // Si la tecla presionada es un número o un operador, agregarlo al display
+      if (/[0-9\+\-\*\/]/.test(key)) {
+        appendToDisplay(key);
+      }
+
+      // Si la tecla presionada es Enter, calcular el resultado
+      if (key === "Enter") {
+        calculateResult();
+      }
+
+      // Si la tecla presionada es Escape (Esc), limpiar el display
+      if (key === "Escape") {
+        clearDisplay();
       }
     }
   </script>
